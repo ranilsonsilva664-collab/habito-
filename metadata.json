@@ -1,0 +1,7 @@
+{
+  "name": "Evolução - Habit Tracker",
+  "description": "A premium gamified habit tracker and productivity dashboard featuring progress charts, focus mode, and AI-powered routine optimizations.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
