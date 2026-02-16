@@ -11,6 +11,7 @@ import NewActivity from './pages/NewActivity';
 import FocusMode from './pages/FocusMode';
 import HabitConfig from './pages/HabitConfig';
 import Auth from './pages/Auth';
+import WorkoutDashboard from './pages/WorkoutDashboard';
 
 // Components
 import Navigation from './components/Navigation';
@@ -233,6 +234,8 @@ const App: React.FC = () => {
         return <FocusMode habit={selectedHabit || activities[0]} onFinish={() => finishSession(selectedHabitId!)} onCancel={() => navigate(Page.TODAY)} />;
       case Page.CONFIG:
         return <HabitConfig habit={selectedHabit || activities[0]} onBack={() => navigate(Page.DASHBOARD)} onUpdate={updateActivity} onDelete={deleteActivity} />;
+      case Page.TREINOS:
+        return <WorkoutDashboard navigate={navigate} />;
       default:
         return <TodayView activities={activities} toggleTask={toggleTaskCompletion} navigate={navigate} />;
     }
