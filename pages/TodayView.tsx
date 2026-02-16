@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Activity, Page } from '../types';
-import { getRoutineSuggestion } from '../services/geminiService';
 import { WEEKDAYS } from '../constants';
 
 interface TodayViewProps {
@@ -33,24 +32,14 @@ const ConfettiBurst: React.FC<{ active: boolean }> = ({ active }) => {
 };
 
 const TodayView: React.FC<TodayViewProps> = ({ activities, toggleTask, navigate }) => {
-  const [aiTip, setAiTip] = useState<string>("Sua mente é seu maior ativo...");
   const [justCompletedId, setJustCompletedId] = useState<string | null>(null);
-  
+
   // Obter dia atual (D, S, T, Q, Q, S, S)
   const todayIndex = new Date().getDay();
   const todayLabel = WEEKDAYS[todayIndex];
 
   const todayActivities = activities.filter(a => a.frequency.includes(todayLabel));
 
-  useEffect(() => {
-    const fetchTip = async () => {
-      const names = todayActivities.map(a => a.name).join(', ');
-      const completed = todayActivities.filter(a => a.completed).length;
-      const tip = await getRoutineSuggestion(names, `${completed}/${todayActivities.length} completados hoje`);
-      setAiTip(tip);
-    };
-    if (todayActivities.length > 0) fetchTip();
-  }, [activities.length]);
 
   const handleToggle = (id: string, currentlyCompleted: boolean) => {
     if (!currentlyCompleted) {
@@ -63,7 +52,7 @@ const TodayView: React.FC<TodayViewProps> = ({ activities, toggleTask, navigate 
   const completedCount = todayActivities.filter(a => a.completed).length;
   const total = todayActivities.length || 1;
   const progressPercent = Math.round((completedCount / total) * 100);
-  
+
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (progressPercent / 100) * circumference;
@@ -82,12 +71,6 @@ const TodayView: React.FC<TodayViewProps> = ({ activities, toggleTask, navigate 
             <img alt="Avatar" className="w-full h-full object-cover" src="https://picsum.photos/seed/alex/200/200" />
           </div>
         </div>
-        <div className="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-4 rounded-r-xl flex items-start gap-3">
-          <span className="material-icons-round text-primary mt-0.5">auto_awesome</span>
-          <p className="text-xs italic text-slate-600 dark:text-slate-300 leading-relaxed">
-            "{aiTip}"
-          </p>
-        </div>
       </header>
 
       <section className="flex flex-col items-center justify-center py-4 mb-4">
@@ -105,8 +88,8 @@ const TodayView: React.FC<TodayViewProps> = ({ activities, toggleTask, navigate 
         </div>
         <div className="mt-6 text-center">
           <p className="text-sm font-semibold tracking-tight">
-            {todayActivities.length - completedCount === 0 
-              ? "🎉 Incrível! Tudo concluído!" 
+            {todayActivities.length - completedCount === 0
+              ? "🎉 Incrível! Tudo concluído!"
               : `Faltam ${todayActivities.length - completedCount} tarefas para hoje!`}
           </p>
         </div>
@@ -126,7 +109,7 @@ const TodayView: React.FC<TodayViewProps> = ({ activities, toggleTask, navigate 
         )}
 
         {todayActivities.map(activity => (
-          <div 
+          <div
             key={activity.id}
             onClick={() => navigate(Page.FOCUS_MODE, activity.id)}
             className={`bg-white dark:bg-card-dark rounded-2xl p-4 flex items-center shadow-sm border border-slate-100 dark:border-primary/5 active:scale-[0.98] transition-all cursor-pointer group ${activity.completed ? 'animate-bounce-subtle' : ''}`}
