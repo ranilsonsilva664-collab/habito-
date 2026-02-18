@@ -2,6 +2,7 @@ import React from 'react';
 import { BarChart, Bar, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar, Cell, LineChart, Line, XAxis, Tooltip } from 'recharts';
 import { Page, Activity, Category } from '../types';
 import { WEEKDAYS } from '../constants';
+import { supabase } from '../services/supabaseClient';
 
 interface DashboardProps {
   navigate: (page: Page, id?: string) => void;
@@ -86,11 +87,17 @@ const Dashboard: React.FC<DashboardProps> = ({ navigate, xp, activities }) => {
   return (
     <div className="px-6 py-4 space-y-6">
       <header className="flex justify-between items-center">
-        <div>
+        <div className="flex-1">
           <h1 className="text-2xl font-black tracking-tighter">Hábito+</h1>
           <p className="text-[10px] text-primary font-bold uppercase tracking-[0.2em]">marque cada conquista e acompanhe seu progresso</p>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => supabase.auth.signOut()}
+            className="px-2 py-1 text-[10px] font-black uppercase text-red-500/50 hover:text-red-500 transition-colors"
+          >
+            Sair
+          </button>
           <div className="text-right">
             <p className="text-[9px] font-bold text-slate-400 uppercase leading-none">Level</p>
             <p className="text-lg font-black text-primary leading-none">{level}</p>

@@ -246,22 +246,6 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 flex justify-center overflow-x-hidden font-display">
       <div className="w-full max-w-[430px] min-h-screen flex flex-col relative bg-white dark:bg-background-dark shadow-2xl">
-        {!isFullScreenPage && (
-          <div className="h-11 w-full flex items-center justify-between px-6 pt-2 select-none shrink-0 z-50 bg-inherit">
-            <span className="text-sm font-semibold">9:41</span>
-            <div className="flex items-center gap-1.5">
-              <span className="material-icons-round text-sm">signal_cellular_alt</span>
-              <span className="material-icons-round text-sm">wifi</span>
-              <span className="material-icons-round text-sm">battery_full</span>
-            </div>
-            <button
-              onClick={() => supabase.auth.signOut()}
-              className="ml-4 text-[10px] font-black uppercase text-red-500/50 hover:text-red-500"
-            >
-              Sair
-            </button>
-          </div>
-        )}
 
         <main className={`flex-1 flex flex-col ${isFullScreenPage ? '' : 'pb-24'}`}>
           {renderPage()}

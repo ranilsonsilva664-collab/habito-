@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Activity, Page } from '../types';
 import { WEEKDAYS } from '../constants';
+import { supabase } from '../services/supabaseClient';
 
 interface TodayViewProps {
   activities: Activity[];
@@ -61,14 +62,22 @@ const TodayView: React.FC<TodayViewProps> = ({ activities, toggleTask, navigate 
     <div className="px-6 pb-6 flex-1 flex flex-col">
       <header className="pt-4 pb-6">
         <div className="flex justify-between items-center mb-4">
-          <div>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold tracking-tight">Olá, Campeão!</h1>
             <p className="text-sm text-slate-500 dark:text-primary/70 font-medium">
               {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
-          <div className="w-10 h-10 rounded-full border-2 border-primary overflow-hidden cursor-pointer" onClick={() => navigate(Page.DASHBOARD)}>
-            <img alt="Avatar" className="w-full h-full object-cover" src="https://picsum.photos/seed/alex/200/200" />
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="px-2 py-1 text-[10px] font-black uppercase text-red-500/50 hover:text-red-500 transition-colors"
+            >
+              Sair
+            </button>
+            <div className="w-10 h-10 rounded-full border-2 border-primary overflow-hidden cursor-pointer" onClick={() => navigate(Page.DASHBOARD)}>
+              <img alt="Avatar" className="w-full h-full object-cover" src="https://picsum.photos/seed/alex/200/200" />
+            </div>
           </div>
         </div>
       </header>
